@@ -135,9 +135,9 @@ class SequenceSender {
 		pos := 1
 		matches := []
 		/*
-		([\^|+|!|$|#]*({\w+}|\w{1}))
+		([\^+!$#<>]*({[\w|]*}|[\w|]{1}))
 		Capture Send strings
-		Matches OPTIONAL modifier (^+!#) PLUS...
+		Matches OPTIONAL modifier (^+!#<>) PLUS...
 		... EITHER { <any number of chars> }
 		... OR <single char>
 		eg
@@ -145,7 +145,7 @@ class SequenceSender {
 		^{a}
 		{Space}
 		
-		\[([\w| |,]+)\]
+		\[([\w ,]+)\]
 		Capture Tokens
 		Delimiters are [ and ] by default, but can be changed
 		Matches [ <any number of chars> ]
@@ -153,10 +153,9 @@ class SequenceSender {
 		[Sleep 100]
 		[RandSleep 10, 100]
 		*/
-		rgx := "O)([\^|+|!|#|<|>]*({\w+}|\w{1}))|" this._TokenChars[1] "([\w| |,]+)" this._TokenChars[2]
+		rgx := "O)([\^+!$#<>]*({[\w|]*}|[\w|]{1}))|" this._TokenChars[1] "([\w ,]+)" this._TokenChars[2]
 		
 		while (pos){
-			;~ pos := RegexMatch(this.SeqStr, "OU)([\^|!|$|#]*{.+})|\[(.+)\]+", match, pos)
 			pos := RegexMatch(this.SeqStr, rgx, match, pos)
 			c := match.Count
 			ss := match[1]
