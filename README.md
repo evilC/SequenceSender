@@ -16,7 +16,7 @@ Give it a min and max amount of time to sleep, and it will pick a random value
 1. Include the library: `#include SequenceSender.ahk`  
 1. Create a new SequenceSender object: `ss := new SequenceSender()`  
 1. Optionally set options, eg `ss.ResetOnStart(false)`
-1. Load a SequenceString: `ss.Load("^a^c!{Tab}^v")`  
+1. Load a SequenceString: `ss.Load("^a^c[Sleep 100]!{Tab}^v")`  
 1. Start using `ss.Start()`, stop using `ss.Stop()`  
 
 ### SequenceStrings
