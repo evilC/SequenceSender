@@ -5,16 +5,16 @@ class SequenceSender {
 	_Repeat := true
 	_ResetOnStart := true
 	_Seq := []
-	_TokenChars := ["\[", "\]"]
-	_EscapeChars := "[\^$.|?*+()"	; If Tokens use one of these chars, they need to be escaped with \ for the regex
-	_ForbiddenTokens := "{}<>"			; Do not allow these characters for token delimiters
+	_Mods := "+^!#<>"
+	_TokenRgx := "OU)(\[.+\])"
 	_SeqTypeToName := ["Send", "Sleep", "RandSleep"]
 	_SeqNameToType := {}
 	_Debug := false
 	_BlindMode := 0
 	
 	__New(){
-		this.TickFn := this._Tick.Bind(this)
+		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
+		this._TickFn := this._Tick.Bind(this)
 		for i, v in this._SeqTypeToName {
 			this._SeqNameToType[v] := i
 		}
@@ -24,8 +24,7 @@ class SequenceSender {
 		if (!this._ResetOnStart && !this._Repeat){
 			throw "One of ResetOnStart or Repeat must be true"
 		}
-		this.SeqStr := seq
-		this._BuildSeq()
+		this._BuildSeq(seq)
 		return this
 	}
 	
@@ -84,13 +83,13 @@ class SequenceSender {
 	
 	_Start(t := 0){
 		this._TimerRunning := 1
-		fn := this.TickFn
+		fn := this._TickFn
 		SetTimer, % fn, % "-" t
 	}
 	
 	_Stop(){
 		this._TimerRunning := 0
-		fn := this.TickFn
+		fn := this._TickFn
 		SetTimer, % fn, Off
 	}
 	
@@ -130,55 +129,59 @@ class SequenceSender {
 		return this._Seq[this.Pos]
 	}
 	
-	_BuildSeq(){
-		this._Seq := []
+	_BuildSeq(SeqStr){
+		this._Seq := this.__BuildSeq(SeqStr)
+	}
+	
+	__BuildSeq(SeqStr){
+		Seq := []
+		chunks := []
 		pos := 1
-		matches := []
-		/*
-		([\^+!$#<>]*({[\w|]*}|[\w|]{1}))
-		Capture Send strings
-		Matches OPTIONAL modifier (^+!#<>) PLUS...
-		... EITHER { <any number of chars> }
-		... OR <single char>
-		eg
-		^c
-		^{a}
-		{Space}
-		
-		\[([\w ,]+)\]
-		Capture Tokens
-		Delimiters are [ and ] by default, but can be changed
-		Matches [ <any number of chars> ]
-		eg
-		[Sleep 100]
-		[RandSleep 10, 100]
-		*/
-		rgx := "O)([\^+!$#<>]*({[\w|]*}|[\w|]{1}))|" this._TokenChars[1] "([\w ,]+)" this._TokenChars[2]
-		
+		lastPos := 0
 		while (pos){
-			pos := RegexMatch(this.SeqStr, rgx, match, pos)
-			c := match.Count
-			ss := match[1]
-			s := Trim(match[1])
-			if (s != ""){
-				this._Seq.Push(new this.SendObj(this, this._SeqNameToType.Send, s))
-				pos += StrLen(s)
+			pos := RegexMatch(SeqStr, this._TokenRgx, match, pos)
+
+			if (pos == 0){
+				chunks.Push(SeqStr)
+				break
+			} else {
+				chunks.Push(SubStr(SeqStr, 1, pos - 1))
 			}
-			x := Trim(match[2])
-			
-			t := Trim(match[3])
-			if (t != ""){
+			chunks.Push(SubStr(SeqStr, pos, match.Len))
+			SeqStr := SubStr(SeqStr, pos + match.Len)
+			if (SeqStr == "")
+				break
+		}
+		
+		for i, chunk in chunks {
+			max := StrLen(chunk)
+			if (SubStr(chunk, 1, 1) == "["){
+				; Token
+				t := SubStr(chunk, 2, max - 2)
 				if (InStr(t, "randsleep")){
 					type := this._SeqNameToType.RandSleep
-					this._Seq.Push(new this.RandSleepObj(this, type, t))
+					Seq.Push(new this.RandSleepObj(this, type, t))
 				} else if (InStr(t, "sleep")){
 					type := this._SeqNameToType.Sleep
-					this._Seq.Push(new this.SleepObj(this, type, t))
+					Seq.Push(new this.SleepObj(this, type, t))
 				}
-				
-				pos += StrLen(t) + 2 ; Add 2 to include [] token delimiters
+			} else { 
+				; Send String
+				pos := 1
+				while (pos){
+					pos := RegexMatch(chunk, this._SendRgx, match, pos)
+					if (pos == 0){
+						break
+					}
+					s := match[1]
+					Seq.Push(new this.SendObj(this, this._SeqNameToType.Send, s))
+					pos += match.Len
+					if (pos > max)
+						break
+				}
 			}
 		}
+		return Seq
 	}
 	
 	class BaseObj {
