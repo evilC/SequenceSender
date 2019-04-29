@@ -85,6 +85,19 @@ Starts sending
 eg `ss.Stop()`  
 Stops sending  
 
+#### TokenStrings
+The following TokenStrings are included:
+##### Sleep
+`[Sleep <time>]`  
+eg `ss.Load("^c[Sleep 100]^v")`  
+Inserts a pause of `<time>` ms into the Sequence
+
+##### RandSleep
+`[RandSleep <min time>, <max time>]`  
+eg `ss.Load("^c[RandSleep 10, 100]^v")`  
+Inserts a random sleep of between `<min time>` ms and `<max time>` ms
+Each time this Token is hit in the sequence, a new random time is picked
+
 #### Chaining  
 All Methods can be "chained".  
 for example, to create the SequenceSender object, load a SequenceString, set some options, and start - all on one line of code, you could do:  
