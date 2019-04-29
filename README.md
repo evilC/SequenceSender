@@ -1,6 +1,16 @@
 # SequenceSender
 A library for AutoHotkey to make it easy to send (optionally repeating) sequences of characters
 
+## Objectives
+The purpose of this library is to allow users to easily send sequences of characters, with timing (eg waiting between keys)  
+* All "Asynchronous" code. No loops  
+This is to minimize interference with your other code. AHK is not a multi-threaded language!    
+* When stopping, can abort mid-sequence  
+Saves you checking between each send or sleep if we want to stop  
+* Supports Random sleep times  
+Give it a min and max amount of time to sleep, and it will pick a random value  
+* Specify what to send using identical syntax to AHK's `Send` command, with extra "Tokens" to handle Sleeping etc  
+
 ## Usage
 ### Overview
 1. Include the library: `#include SequenceSender.ahk`  
