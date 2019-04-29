@@ -40,8 +40,49 @@ Default is `True`
 ##### ResetOnStart
 `ResetOnStart(<true/false>)`  
 eg `ss.ResetOnStart(false)`  
+Sets whether or not the sequence resumes from the start (True) or where it left off (False) when you call `Start()`  
 Default is `True`  
 **Note that one of `Repeat` or `ResetOnStart` must be set to True**  
 
+##### SetTokenChars
+`SetTokenChars(<open>, <close>)`  
+eg `ss.SetTokenChars("(", ")")`  
+Sets the characters used to open and close TokenStrings  
+Defaults to `[` and `]`  
 
+##### Debug
+`Debug(<true/false>)`  
+eg `ss.Debug(true)`  
+Sets Debug Mode on  
+In Debug Mode, no characters will be sent - instead they will be logged out to the debug stream  
+Use SCiTE4AutoHotkey or DebugView to view the debug output.  
+Defaults to `False`  
 
+##### BlindMode
+`BlindMode(<true/false>)`  
+eg `ss.BlindMode(true)`  
+Enables or Disables the `{Blind}` prefix for Sends  
+Defaults to `False`  
+
+#### Other Methods  
+##### Start
+`Start()`  
+eg `ss.Start()`  
+Starts sending  
+
+##### Stop()
+`Stop()`  
+eg `ss.Stop()`  
+Stops sending  
+
+#### Chaining  
+All Methods can be "chained".  
+for example, to create the SequenceSender object, load a SequenceString, set some options, and start - all on one line of code, you could do:  
+`ss := new SequenceSender().Repeat(false).Load("^a^c").Start()`  
+With AHK "continuation sections", this can also be split across multiple lines - just make sure each new line begins with `.`:  
+```
+ss := new SequenceSender()
+    .Repeat(false)
+    .Load("^a^c")
+    .Start()
+```
