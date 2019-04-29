@@ -23,3 +23,5 @@ This tells SequenceSender to take a special action
     1. Delimiters can be changed  
     1. Example token: `[Sleep 100]` to sleep for 100ms  
 
+A SequenceString may comprise of any number of SendStrings and TokenStrings  
+eg `^a[Sleep 100]^c` to send Ctrl-A, wait 100ms, then send Ctrl-C  
