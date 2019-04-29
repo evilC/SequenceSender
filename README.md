@@ -25,3 +25,23 @@ This tells SequenceSender to take a special action
 
 A SequenceString may comprise of any number of SendStrings and TokenStrings  
 eg `^a[Sleep 100]^c` to send Ctrl-A, wait 100ms, then send Ctrl-C  
+
+### SequenceSender object Method Reference
+Once you have created a new SequenceSender object (eg using `ss := new SequenceSender()`), then the following functions are available for you to use:  
+
+#### Option Setting Methods  
+##### Repeat
+`Repeat(<true/false>)`  
+eg `ss.Repeat(true)`  
+Sets whether or not the sequence repeats once it gets to the end  
+Default is `True`  
+**Note that one of `Repeat` or `ResetOnStart` must be set to True**  
+
+##### ResetOnStart
+`ResetOnStart(<true/false>)`  
+eg `ss.ResetOnStart(false)`  
+Default is `True`  
+**Note that one of `Repeat` or `ResetOnStart` must be set to True**  
+
+
+
