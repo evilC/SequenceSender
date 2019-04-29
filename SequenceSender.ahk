@@ -137,7 +137,6 @@ class SequenceSender {
 		Seq := []
 		chunks := []
 		pos := 1
-		lastPos := 0
 		while (pos){
 			pos := RegexMatch(SeqStr, this._TokenRgx, match, pos)
 
