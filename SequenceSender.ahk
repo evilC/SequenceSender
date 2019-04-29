@@ -7,7 +7,7 @@ class SequenceSender {
 	_Seq := []
 	_TokenChars := ["\[", "\]"]
 	_EscapeChars := "[\^$.|?*+()"	; If Tokens use one of these chars, they need to be escaped with \ for the regex
-	_ForbiddenTokens := "{}"			; Do not allow these characters for token delimiters
+	_ForbiddenTokens := "{}<>"			; Do not allow these characters for token delimiters
 	_SeqTypeToName := ["Send", "Sleep", "RandSleep"]
 	_SeqNameToType := {}
 	_Debug := false
@@ -153,7 +153,7 @@ class SequenceSender {
 		[Sleep 100]
 		[RandSleep 10, 100]
 		*/
-		rgx := "O)([\^|+|!|#]*({\w+}|\w{1}))|" this._TokenChars[1] "([\w| |,]+)" this._TokenChars[2]
+		rgx := "O)([\^|+|!|#|<|>]*({\w+}|\w{1}))|" this._TokenChars[1] "([\w| |,]+)" this._TokenChars[2]
 		
 		while (pos){
 			;~ pos := RegexMatch(this.SeqStr, "OU)([\^|!|$|#]*{.+})|\[(.+)\]+", match, pos)
