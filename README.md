@@ -29,8 +29,7 @@ This tells SequenceSender to send some keys.
       eg A SendString of `^a^{b}ccc` will send in 5 chunks: `^a`, `^{b}` `c`, `c`, `c`
 1. TokenString  
 This tells SequenceSender to take a special action
-    1. It is wrapped in the Token Delimiters (`[` and `]` by default)  
-    1. Delimiters can be changed  
+    1. It is wrapped in the Token Delimiters (`[` and `]`)  
     1. Example token: `[Sleep 100]` to sleep for 100ms  
 
 A SequenceString may comprise of any number of SendStrings and TokenStrings  
@@ -53,12 +52,6 @@ eg `ss.ResetOnStart(false)`
 Sets whether or not the sequence resumes from the start (True) or where it left off (False) when you call `Start()`  
 Default is `True`  
 **Note that one of `Repeat` or `ResetOnStart` must be set to True**  
-
-##### SetTokenChars
-`SetTokenChars(<open>, <close>)`  
-eg `ss.SetTokenChars("(", ")")`  
-Sets the characters used to open and close TokenStrings  
-Defaults to `[` and `]`  
 
 ##### Debug
 `Debug(<true/false>)`  
