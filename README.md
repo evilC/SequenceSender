@@ -77,12 +77,12 @@ eg `ss.Start()`
 Starts sending  
 If SequenceSender is already sending, will not re-start, so you can safely bind to a hotkey and not worry about key repeat
 
-##### Stop()
+##### Stop
 `Stop()`  
 eg `ss.Stop()`  
 Stops sending  
 
-##### Stop()
+##### Toggle
 `Toggle()`  
 eg `ss.Toggle()`  
 Toggles between Start and Stop  
