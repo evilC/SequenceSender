@@ -1,21 +1,3 @@
-/*
-#SingleInstance force
-OutputDebug, DBGVIEWCLEAR
-
-ss := new SequenceSender()
-	.Debug(true)				; Disable sending of actual keys, just log to Debug
-	;~ .BlindMode(true)			; Turn on Blind send mode
-	;~ .Repeat(false)			; Disable Repeating
-	;~ .ResetOnStart(false)		; Disable Reset on Start
-	.Load("a[Sleep 100]b[RandSleep 10, 100]")
-	;~ .Load("^c^{a}[Sleep 100]abcdef{Left}^{c}[RandSleep 10, 100]^{v}^{Right}")
-return
-
-F12::ss.Toggle()
-
-^Esc::
-	ExitApp
-*/
 #include %A_LineFile%\..\BaseObjects.ahk
 #include %A_LineFile%\..\DefaultTokens.ahk
 
@@ -33,7 +15,7 @@ class SequenceSender {
 	_Debug := false
 	_BlindMode := 0
 	; Class Names for Tokens
-	_TokenClasses := {Sleep : "DefaultTokens.SleepObj", RandSleep: "DefaultTokens.RandSleepObj"}
+	_TokenClasses := {Sleep : "DefaultTokens.SleepObj", RandSleep: "DefaultTokens.RandSleepObj", WinWaitActive: "DefaultTokens.WinWaitActive"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
