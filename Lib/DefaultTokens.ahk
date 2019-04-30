@@ -60,19 +60,23 @@ class DefaultTokens {
 		TokenName := "WinWaitActive"
 		
 		Build(params){
-			this.WinTitle := ""
-			max := params.Length()
-			Loop % max {
-				v := params[A_Index]
-				this.WinTitle .= v
-				if (A_Index != max)
-					this.WinTitle .= " "
-			}
+			this.WinTitle := this.Join(" ", params*)
 		}
 		
 		Execute(){
 			OutputDebug % "AHK| Waiting for '" this.WinTitle "' to be active..."
 			WinWaitActive, % this.WinTitle
+			this.OnNext(0)
+		}
+	}
+	
+	class WinActivate extends BaseObjects.BaseObj {
+		Build(params){
+			this.WinTitle := this.Join(" ", params*)
+		}
+		
+		Execute(){
+			WinActivate % this.WinTitle
 			this.OnNext(0)
 		}
 	}
