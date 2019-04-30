@@ -16,7 +16,7 @@ class SequenceSender {
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
-		this._TickFn := this._Tick.Bind(this)
+		this.TickFn := this._Tick.Bind(this)
 		for i, v in this._SeqTypeToName {
 			this._SeqNameToType[v] := i
 		}
@@ -92,15 +92,15 @@ class SequenceSender {
 		return this
 	}
 	
-	_Start(t := 0){
+	_Start(){
 		this._TimerRunning := 1
-		fn := this._TickFn
-		SetTimer, % fn, % "-" t
+		fn := this.TickFn
+		SetTimer, % fn, -0
 	}
 	
 	_Stop(){
 		this._TimerRunning := 0
-		fn := this._TickFn
+		fn := this.TickFn
 		SetTimer, % fn, Off
 	}
 	
@@ -113,6 +113,7 @@ class SequenceSender {
 			return
 		}
 		item := this._GetItem()
+		n := item.TokenName
 		
 		atEnd := this.Pos >= this._Seq.Length()
 		if (atEnd){
@@ -125,15 +126,7 @@ class SequenceSender {
 			}
 		}
 		this.Pos++
-		if (item.HasDelay){
-			t := item.GetSleepTime()
-			if (this._Debug)
-				OutputDebug, % "AHK| Sleeping for " t " @ " A_TickCount
-			this._Start(t)
-		} else {
-			item.Execute()
-			this._Start()
-		}
+		item.Execute()
 	}
 	
 	_GetItem(){
@@ -241,31 +234,11 @@ class SequenceSender {
 		Type := 2
 		HasDelay := 0
 		TokenName := ""
-		
-		;~ __New(parent, tokenStr){
-			;~ this.Build(tokenStr)
-		;~ }
-	}
-	
-	;~ class BaseSleepObj extends SequenceSender.BaseObj {
-	class BaseSleepObj extends SequenceSender.BaseTokenObj {
-		HasDelay := 1
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Execute(){
-
-		}
 	}
 	
 	class SendObj extends SequenceSender.BaseObj {
 		Type := 1
 		SendStr := ""
-		
-		;~ __New(parent, tokenStr){
-			;~ base.__New(parent, tokenStr)
-		;~ }
 		
 		Build(tokenStr){
 			this.SendStr := tokenStr
@@ -281,6 +254,26 @@ class SequenceSender {
 			} else {
 				Send % str
 			}
+			
+			fn := this.Parent.TickFn
+			SetTimer, % fn, -0
+		}
+	}
+	
+	class BaseSleepObj extends SequenceSender.BaseTokenObj {
+		HasDelay := 1
+		__New(parent, tokenStr){
+			base.__New(parent, tokenStr)
+		}
+		
+		Execute(){
+			;~ fn := this.Parent._Tick.Bind(this.Parent)
+			fn := this.Parent.TickFn
+			t := this.GetSleepTime()
+			if (this.Parent._Debug){
+				OutputDebug, % "AHK| Sleeping for " t " @ " A_TickCount
+			}
+			SetTimer, % fn, % "-" t
 		}
 	}
 
