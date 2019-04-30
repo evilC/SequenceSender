@@ -1,10 +1,11 @@
 class BaseObjects {
 	class BaseObj {
 		HasDelay := 0
-		__New(parent, tokenStr){
+		__New(parent, params){
 			this.Parent := parent
-			this.Build(tokenStr)
-			this.RawText := tokenStr
+			this.Params := params
+			this.Build(params)
+			;~ this.RawText := tokenStr
 		}
 		
 		OnNext(t := 0){
@@ -21,9 +22,9 @@ class BaseObjects {
 	
 	class BaseSleepObj extends BaseObjects.BaseTokenObj {
 		HasDelay := 1
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
+		;~ __New(parent, params){
+			;~ base.__New(parent, params)
+		;~ }
 		
 		Execute(){
 			t := this.GetSleepTime()
