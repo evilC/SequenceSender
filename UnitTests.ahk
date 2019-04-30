@@ -7,19 +7,21 @@ Gui, Show, NoActivate
 
 ss := new SequenceSender()
 
-Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, RawText: "a"}
-	, {Type: 1, RawText: "b"}
-	, {Type: 1, RawText: "^!c"}
-	, {Type: 1, RawText: "{d}"}
-	, {Type: 1, RawText: "^!{Space}"}])
-Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep 100]^!{Space}[RandSleep 10, 100]", [{Type: 1, RawText: "a"}
-	, {Type: 1, RawText: "b"}
-	, {Type: 1, RawText: "^!c"}
-	, {Type: 1, RawText: "{d}"}
-	, {Type: 2, RawText: "Sleep 100"}
-	, {Type: 1, RawText: "^!{Space}"}
-	, {Type: 3, RawText: "RandSleep 10, 100"}])
-Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, RawText: "^#%"}
+Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
+	, {Type: 1, SendStr: "b"}
+	, {Type: 1, SendStr: "^!c"}
+	, {Type: 1, SendStr: "{d}"}
+	, {Type: 1, SendStr: "^!{Space}"}])
+	
+Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep 100]^!{Space}[RandSleep 10, 100]", [{Type: 1, SendStr: "a"}
+	, {Type: 1, SendStr: "b"}
+	, {Type: 1, SendStr: "^!c"}
+	, {Type: 1, SendStr: "{d}"}
+	, {Type: 2, TokenName: "Sleep", SleepTime: "100"}
+	, {Type: 1, SendStr: "^!{Space}"}
+	, {Type: 2, TokenName: "RandSleep", MinSleep: 10, MaxSleep: 100}])
+	
+Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, SendStr: "^#%"}
 	, {Type: 1, RawText: "%"}])
 return
 
