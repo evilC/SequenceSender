@@ -18,8 +18,7 @@ class DefaultTokens {
 				Send % str
 			}
 			
-			fn := this.Parent.TickFn
-			SetTimer, % fn, -0
+			this.OnNext()
 		}
 	}
 
@@ -62,6 +61,16 @@ class DefaultTokens {
 		GetSleepTime(){
 			Random, value, % this.MinSleep, % this.MaxSleep
 			return value
+		}
+	}
+	
+	class WinWaitActive extends BaseObjects.BaseSleepObj {
+		TokenName := "WinWaitActive"
+		
+		Execute(){
+			OutputDebug % "AHK| Waiting for '" this.RawText "' to be active..."
+			WinWaitActive, % this.RawText
+			this.OnNext()
 		}
 	}
 }
