@@ -16,7 +16,7 @@ ss := new SequenceSender()
 	;~ .Load("^{Home}(Sleep 100)+^{Right}^{c}(RandSleep 10, 100)^{v}")
 return
 
-F12::ss.Toggle()
+$F12::ss.Toggle()
 
 ^Esc::
 	ExitApp
