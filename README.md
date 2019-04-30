@@ -11,6 +11,8 @@ Saves you checking between each send or sleep if we want to stop
 Give it a min and max amount of time to sleep, and it will pick a random value  
 * Specify what to send using identical syntax to AHK's `Send` command, with extra "Tokens" to handle Sleeping etc  
 * Minimal processing during play-time. All string manipulation is done at load-time.  
+* Extensible  
+New Token Handlers can be added to allow custom operations
 
 ## Usage
 ### Overview
@@ -73,11 +75,17 @@ Defaults to `False`
 `Start()`  
 eg `ss.Start()`  
 Starts sending  
+If SequenceSender is already sending, will not re-start, so you can safely bind to a hotkey and not worry about key repeat
 
 ##### Stop()
 `Stop()`  
 eg `ss.Stop()`  
 Stops sending  
+
+##### Stop()
+`Toggle()`  
+eg `ss.Toggle()`  
+Toggles between Start and Stop  
 
 #### TokenStrings
 The following TokenStrings are included:
@@ -91,6 +99,11 @@ Inserts a pause of `<time>` ms into the Sequence
 eg `ss.Load("^c[RandSleep 10, 100]^v")`  
 Inserts a random sleep of between `<min time>` ms and `<max time>` ms
 Each time this Token is hit in the sequence, a new random time is picked
+
+##### WinWaitActive
+`[WinWaitActive <WinTitle>]`
+eg `[WinWaitActive ahk_class Notepad]`
+Same as AHK's WinWaitActive command  
 
 #### Chaining  
 All Methods can be "chained".  
