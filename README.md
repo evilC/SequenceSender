@@ -10,7 +10,7 @@ This is to minimize interference with your other code. AHK is not a multi-thread
 Saves you checking between each send or sleep if we want to stop  
 * Supports Random sleep times  
 Give it a min and max amount of time to sleep, and it will pick a random value  
-* Specify what to send using identical syntax to AHK's `Send` command
+* Specify what to send using identical syntax to AHK's `Send` command  
 With extra "[Tokens]" to handle Sleeping etc  
 * Minimal processing during play-time.  
 All string manipulation is done at load-time.  
