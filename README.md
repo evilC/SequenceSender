@@ -1,5 +1,7 @@
 # SequenceSender
-A library for AutoHotkey to make it easy to send (optionally repeating) sequences of characters
+A library for AutoHotkey to make it easy to send (optionally repeating) sequences of characters  
+
+## [Support / Discussion thread on the AHK forums](https://www.autohotkey.com/boards/viewtopic.php?f=6&t=64124)
 
 ## Objectives
 The purpose of this library is to allow users to easily send sequences of characters, with timing (eg waiting between keys)  
