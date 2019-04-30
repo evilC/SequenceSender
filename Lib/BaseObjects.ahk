@@ -6,6 +6,11 @@ class BaseObjects {
 			this.Build(tokenStr)
 			this.RawText := tokenStr
 		}
+		
+		OnNext(t := 0){
+			fn := this.Parent.TickFn
+			SetTimer, % fn, % "-" t			
+		}
 	}
 
 	class BaseTokenObj extends BaseObjects.BaseObj {
@@ -21,13 +26,11 @@ class BaseObjects {
 		}
 		
 		Execute(){
-			;~ fn := this.Parent._Tick.Bind(this.Parent)
-			fn := this.Parent.TickFn
 			t := this.GetSleepTime()
 			if (this.Parent._Debug){
 				OutputDebug, % "AHK| Sleeping for " t " @ " A_TickCount
 			}
-			SetTimer, % fn, % "-" t
+			this.OnNext(t)
 		}
 	}
 }
