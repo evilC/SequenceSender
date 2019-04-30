@@ -4,7 +4,7 @@
 class SequenceSender {
 	Pos := 1
 	_Aborting := 0
-	_TimerRunning := 0
+	_SequenceActive := 0
 	_Repeat := true
 	_ResetOnStart := true
 	_Seq := []
@@ -67,7 +67,7 @@ class SequenceSender {
 			this.Pos := 1
 		}
 		;~ this._Tick()
-		if (this._TimerRunning)
+		if (this._SequenceActive)
 			return
 		this._Start()
 		return this
@@ -75,14 +75,14 @@ class SequenceSender {
 	
 	Stop(){
 		OutputDebug % "AHK| Stopping timer"
-		if (!this._TimerRunning)
+		if (!this._SequenceActive)
 			return
 		this._Stop()
 		return this
 	}
 	
 	Toggle(){
-		if (this._TimerRunning)
+		if (this._SequenceActive)
 			this.Stop()
 		else
 			this.Start()
@@ -99,20 +99,20 @@ class SequenceSender {
 	}
 	
 	_Start(){
-		this._TimerRunning := 1
+		this._SequenceActive := 1
 		fn := this.TickFn
 		SetTimer, % fn, -0
 	}
 	
 	_Stop(){
-		this._TimerRunning := 0
+		this._SequenceActive := 0
 		fn := this.TickFn
 		SetTimer, % fn, Off
 	}
 	
 	_Tick(){
 		;~ OutputDebug % "AHK| Processing Pos " this.Pos
-		if (!this._TimerRunning || this._Aborting){
+		if (!this._SequenceActive || this._Aborting){
 			OutputDebug % "AHK| Repeat disabled, aborting..."
 			this._Aborting := 0
 			this._Stop()
