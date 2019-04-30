@@ -15,8 +15,10 @@ class SequenceSender {
 	_Debug := false
 	_BlindMode := 0
 	; Class Names for Tokens
-	_TokenClasses := {Sleep : "DefaultTokens.SleepObj", RandSleep: "DefaultTokens.RandSleepObj", WinWaitActive: "DefaultTokens.WinWaitActive"}
-	
+	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
+		, RandSleep: "DefaultTokens.RandSleepObj"
+		, WinWaitActive: "DefaultTokens.WinWaitActive"}
+
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
 		this.TickFn := this._Tick.Bind(this)
