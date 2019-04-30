@@ -1,4 +1,4 @@
-#include SequenceSender.ahk
+#include Lib\SequenceSender.ahk
 
 #SingleInstance force
 OutputDebug, DBGVIEWCLEAR
@@ -16,18 +16,7 @@ ss := new SequenceSender()
 	;~ .Load("^{Home}(Sleep 100)+^{Right}^{c}(RandSleep 10, 100)^{v}")
 return
 
-F12State := 0
+F12::ss.Toggle()
 
-F12::
-	if (F12State)
-		return
-	F12State := 1
-	if (!ss._TimerRunning)
-		ss.Start()
-	else
-		ss.Stop()
-	return
-
-F12 up::
-	F12State := 0
-	return
+^Esc::
+	ExitApp
