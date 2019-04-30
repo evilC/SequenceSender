@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle() method
 - WinWaitActive Token
 ### Changed 
+- Rewrote string parsing code, now much improved
 - Tokens now call `OnNext()` themselves, making them extensible
 - Tokens now extensible by adding a new class
 ### Deprecated
