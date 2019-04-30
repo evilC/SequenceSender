@@ -101,8 +101,8 @@ Inserts a random sleep of between `<min time>` ms and `<max time>` ms
 Each time this Token is hit in the sequence, a new random time is picked
 
 ##### WinWaitActive
-`[WinWaitActive <WinTitle>]`
-eg `[WinWaitActive ahk_class Notepad]`
+`[WinWaitActive <WinTitle>]`  
+eg `[WinWaitActive ahk_class Notepad]`  
 Same as AHK's WinWaitActive command  
 
 #### Chaining  
