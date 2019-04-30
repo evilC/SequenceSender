@@ -12,7 +12,7 @@ class SequenceSender {
 	_Debug := false
 	_BlindMode := 0
 	; Class Names for Tokens
-	_TokenClasses := {Sleep : "SleepObj", RandSleep: "RandSleepObj"}
+	_TokenClasses := {Sleep : "SequenceSender.SleepObj", RandSleep: "SequenceSender.RandSleepObj"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
@@ -164,7 +164,7 @@ class SequenceSender {
 				tc := this._SplitToken(tokenStr)
 				
 				if (this._TokenClasses.HasKey(tc[1])){
-					cn := this.__Class "." this._TokenClasses[tc[1]]
+					cn := this._TokenClasses[tc[1]]
 					cls := this._ClassLookup(cn)
 					i := new cls(this, tc[2])
 					if (i == ""){
