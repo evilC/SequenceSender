@@ -7,10 +7,12 @@ class SequenceSender {
 	_Seq := []
 	_Mods := "+^!#<>"
 	_TokenRgx := "OU)(\[.+\])"
-	_SeqTypeToName := ["Send", "Sleep", "RandSleep"]
+	_SeqTypeToName := ["Send", "Token"]
 	_SeqNameToType := {}
 	_Debug := false
 	_BlindMode := 0
+	; Class Names for Tokens
+	_TokenClasses := {Sleep : "SleepObj", RandSleep: "RandSleepObj"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
@@ -67,8 +69,17 @@ class SequenceSender {
 	
 	Stop(){
 		OutputDebug % "AHK| Stopping timer"
+		if (!this._TimerRunning)
+			return
 		this._Stop()
 		return this
+	}
+	
+	Toggle(){
+		if (this._TimerRunning)
+			this.Stop()
+		else
+			this.Start()
 	}
 	
 	Debug(dbg){
@@ -143,7 +154,7 @@ class SequenceSender {
 			if (pos == 0){
 				chunks.Push(SeqStr)
 				break
-			} else {
+			} else if (pos > 1){
 				chunks.Push(SubStr(SeqStr, 1, pos - 1))
 			}
 			chunks.Push(SubStr(SeqStr, pos, match.Len))
@@ -156,13 +167,17 @@ class SequenceSender {
 			max := StrLen(chunk)
 			if (SubStr(chunk, 1, 1) == "["){
 				; Token
-				t := SubStr(chunk, 2, max - 2)
-				if (InStr(t, "randsleep")){
-					type := this._SeqNameToType.RandSleep
-					Seq.Push(new this.RandSleepObj(this, type, t))
-				} else if (InStr(t, "sleep")){
-					type := this._SeqNameToType.Sleep
-					Seq.Push(new this.SleepObj(this, type, t))
+				tokenStr := SubStr(chunk, 2, max - 2)
+				tc := this._SplitToken(tokenStr)
+				
+				if (this._TokenClasses.HasKey(tc[1])){
+					cn := this.__Class "." this._TokenClasses[tc[1]]
+					cls := this._ClassLookup(cn)
+					i := new cls(this, tc[2])
+					if (i == ""){
+						throw "Could not create class " cls
+					}
+					Seq.Push(i)
 				}
 			} else { 
 				; Send String
@@ -173,7 +188,7 @@ class SequenceSender {
 						break
 					}
 					s := match[1]
-					Seq.Push(new this.SendObj(this, this._SeqNameToType.Send, s))
+					Seq.Push(new this.SendObj(this, s))
 					pos += match.Len
 					if (pos > max)
 						break
@@ -183,25 +198,77 @@ class SequenceSender {
 		return Seq
 	}
 	
+    ; By nnik
+    ; https://www.autohotkey.com/boards/viewtopic.php?p=273269#p273269
+    _ClassLookup(name) {
+        Local _splitName, _branch, _branchName, _each ;defining the local variables will make the function assume global
+        ;it's not necessary but will prevent other super-globals from interfering with those values
+        _splitName := StrSplit(name, ".") ;split up the string at the . to get the seperate parts of the name
+        _branchName := _splitName.removeAt(1) ;get the first part - the name of the top-level parent class
+        _branch := %_branchName% ;get the top-level parent class object
+        for _each,_branchName in _splitName { ;the remaining parts of the name are nested classes
+            _branch := ObjRawGet(_branch, _branchName) ;look up the nested class inside the current parent
+        }
+        return _branch ;finally return what we looked up
+    }
+	
+	_SplitToken(tokenStr){
+		ret := []
+		sp := InStr(tokenStr, " ")
+		if (!sp)
+			return [tokenStr]
+		ret[1] := Trim(SubStr(tokenStr, 1, sp))
+		ret[2] := Trim(SubStr(tokenStr, sp))
+		return ret
+	}
+	
 	class BaseObj {
 		HasDelay := 0
-		__New(parent, type, rawText){
+		__New(parent, tokenStr){
 			this.Parent := parent
-			this.Type := type
-			this.RawText := rawText
-			this.Build()
+			this.Build(tokenStr)
+			this.RawText := tokenStr
 		}
 	}
 
-	class SendObj extends SequenceSender.BaseObj {
-		SendStr := ""
+	class TestClass {
+		__New(p){
+			a := 1
+		}
+	}
+	
+	class BaseTokenObj extends SequenceSender.BaseObj {
+		Type := 2
+		HasDelay := 0
+		TokenName := ""
 		
-		__New(parent, type, rawText){
-			base.__New(parent, type, rawText)
+		;~ __New(parent, tokenStr){
+			;~ this.Build(tokenStr)
+		;~ }
+	}
+	
+	;~ class BaseSleepObj extends SequenceSender.BaseObj {
+	class BaseSleepObj extends SequenceSender.BaseTokenObj {
+		HasDelay := 1
+		__New(parent, tokenStr){
+			base.__New(parent, tokenStr)
 		}
 		
-		Build(){
-			this.SendStr := this.rawText
+		Execute(){
+
+		}
+	}
+	
+	class SendObj extends SequenceSender.BaseObj {
+		Type := 1
+		SendStr := ""
+		
+		;~ __New(parent, tokenStr){
+			;~ base.__New(parent, tokenStr)
+		;~ }
+		
+		Build(tokenStr){
+			this.SendStr := tokenStr
 		}
 		
 		Execute(){
@@ -216,53 +283,41 @@ class SequenceSender {
 			}
 		}
 	}
-	
-	class BaseSleepObj extends SequenceSender.BaseObj {
-		HasDelay := 1
-		__New(parent, type, text){
-			base.__New(parent, type, text)
-		}
-		
-		Execute(){
-
-		}
-	}
 
 	class SleepObj extends SequenceSender.BaseSleepObj {
 		SleepTime := 0
-		__New(parent, type, rawText){
-			base.__New(parent, type, rawText)
+		TokenName := "Sleep"
+		
+		__New(parent, tokenStr){
+			base.__New(parent, tokenStr)
 		}
 		
-		Build(){
-			pos := RegExMatch(this.rawText, "iO)sleep (\d+)", match)
-			if (!pos){
-				throw new Exception("Unknown token " this.rawText)
-			}
-			this.SleepTime := match[1]
+		Build(tokenStr){
+			this.SleepTime := tokenStr
 		}
 		
 		GetSleepTime(){
 			return this.SleepTime
 		}
-	
+
 	}
-	
+
 	class RandSleepObj extends SequenceSender.BaseSleepObj {
+		TokenName := "RandSleep"
 		MinSleep := 0
 		MaxSleep := 0
 		
-		__New(parent, type, rawText){
-			base.__New(parent, type, rawText)
+		__New(parent, tokenStr){
+			base.__New(parent, tokenStr)
 		}
 		
-		Build(){
-			pos := RegExMatch(this.rawText, "iO)randsleep (\d+)[ ]*,[ ]*(\d+)", match)
-			if (!pos || match[1] == "" || match[2] == ""){
-				throw new Exception("Bad format: " this.rawText)
+		Build(tokenStr){
+			chunks := StrSplit(tokenStr, ",")
+			if (chunks.Length() != 2){
+				throw new Exception("Invalid format for RandSleep: " tokenStr)
 			}
-			this.MinSleep := match[1]
-			this.MaxSleep := match[2]
+			this.MinSleep := Trim(chunks[1])
+			this.MaxSleep := Trim(chunks[2])
 		}
 		
 		GetSleepTime(){
