@@ -1,5 +1,5 @@
 #SingleInstance force
-#include SequenceSender.ahk
+#include Lib\SequenceSender.ahk
 #Persistent
 
 Gui, Add, Edit, w500 h400 hwndhOutput
@@ -22,7 +22,7 @@ Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep 100]^!{Space}[RandSlee
 	, {Type: 2, TokenName: "RandSleep", MinSleep: 10, MaxSleep: 100}])
 	
 Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, SendStr: "^#%"}
-	, {Type: 1, RawText: "%"}])
+	, {Type: 1, SendStr: "%"}])
 return
 
 ^Esc::
