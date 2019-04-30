@@ -1,3 +1,22 @@
+/*
+#SingleInstance force
+OutputDebug, DBGVIEWCLEAR
+
+ss := new SequenceSender()
+	.Debug(true)				; Disable sending of actual keys, just log to Debug
+	;~ .BlindMode(true)			; Turn on Blind send mode
+	;~ .Repeat(false)			; Disable Repeating
+	;~ .ResetOnStart(false)		; Disable Reset on Start
+	.Load("a[Sleep 100]b[RandSleep 10, 100]")
+	;~ .Load("^c^{a}[Sleep 100]abcdef{Left}^{c}[RandSleep 10, 100]^{v}^{Right}")
+return
+
+F12::ss.Toggle()
+
+^Esc::
+	ExitApp
+*/
+#include %A_LineFile%\..\BaseObjects.ahk
 #include %A_LineFile%\..\DefaultTokens.ahk
 
 class SequenceSender {
@@ -193,19 +212,19 @@ class SequenceSender {
 		return Seq
 	}
 	
-    ; By nnik
-    ; https://www.autohotkey.com/boards/viewtopic.php?p=273269#p273269
-    _ClassLookup(name) {
-        Local _splitName, _branch, _branchName, _each ;defining the local variables will make the function assume global
-        ;it's not necessary but will prevent other super-globals from interfering with those values
-        _splitName := StrSplit(name, ".") ;split up the string at the . to get the seperate parts of the name
-        _branchName := _splitName.removeAt(1) ;get the first part - the name of the top-level parent class
-        _branch := %_branchName% ;get the top-level parent class object
-        for _each,_branchName in _splitName { ;the remaining parts of the name are nested classes
-            _branch := ObjRawGet(_branch, _branchName) ;look up the nested class inside the current parent
-        }
-        return _branch ;finally return what we looked up
-    }
+	; By nnik
+	; https://www.autohotkey.com/boards/viewtopic.php?p=273269#p273269
+	_ClassLookup(name) {
+		Local _splitName, _branch, _branchName, _each ;defining the local variables will make the function assume global
+		;it's not necessary but will prevent other super-globals from interfering with those values
+		_splitName := StrSplit(name, ".") ;split up the string at the . to get the seperate parts of the name
+		_branchName := _splitName.removeAt(1) ;get the first part - the name of the top-level parent class
+		_branch := %_branchName% ;get the top-level parent class object
+		for _each,_branchName in _splitName { ;the remaining parts of the name are nested classes
+			_branch := ObjRawGet(_branch, _branchName) ;look up the nested class inside the current parent
+		}
+		return _branch ;finally return what we looked up
+	}
 	
 	_SplitToken(tokenStr){
 		ret := []
