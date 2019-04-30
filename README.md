@@ -102,7 +102,7 @@ Each time this Token is hit in the sequence, a new random time is picked
 
 ##### WinWaitActive
 `[WinWaitActive <WinTitle>]`  
-eg `[WinWaitActive ahk_class Notepad]`  
+eg `ss.Load([WinWaitActive ahk_class Notepad])`  
 Same as AHK's WinWaitActive command  
 
 #### Chaining  
