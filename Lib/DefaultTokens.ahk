@@ -3,8 +3,8 @@ class DefaultTokens {
 		Type := 1
 		SendStr := ""
 		
-		Build(tokenStr){
-			this.SendStr := tokenStr
+		Build(params){
+			this.SendStr := params[1]
 		}
 		
 		Execute(){
@@ -26,12 +26,8 @@ class DefaultTokens {
 		SleepTime := 0
 		TokenName := "Sleep"
 		
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Build(tokenStr){
-			this.SleepTime := tokenStr
+		Build(params){
+			this.SleepTime := params[1]
 		}
 		
 		GetSleepTime(){
@@ -45,17 +41,9 @@ class DefaultTokens {
 		MinSleep := 0
 		MaxSleep := 0
 		
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Build(tokenStr){
-			chunks := StrSplit(tokenStr, ",")
-			if (chunks.Length() != 2){
-				throw new Exception("Invalid format for RandSleep: " tokenStr)
-			}
-			this.MinSleep := Trim(chunks[1])
-			this.MaxSleep := Trim(chunks[2])
+		Build(params){
+			this.MinSleep := params[1]
+			this.MaxSleep := params[2]			
 		}
 		
 		GetSleepTime(){
@@ -67,9 +55,20 @@ class DefaultTokens {
 	class WinWaitActive extends BaseObjects.BaseSleepObj {
 		TokenName := "WinWaitActive"
 		
+		Build(params){
+			this.WinTitle := ""
+			max := params.Length()
+			Loop % max {
+				v := params[A_Index]
+				this.WinTitle .= v
+				if (A_Index != max)
+					this.WinTitle .= " "
+			}
+		}
+		
 		Execute(){
-			OutputDebug % "AHK| Waiting for '" this.RawText "' to be active..."
-			WinWaitActive, % this.RawText
+			OutputDebug % "AHK| Waiting for '" this.WinTitle "' to be active..."
+			WinWaitActive, % this.WinTitle
 			this.OnNext()
 		}
 	}
