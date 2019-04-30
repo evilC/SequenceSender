@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Toggle() method
 - WinWaitActive Token
+- Unit Tests for parsing function
 ### Changed 
 - Rewrote string parsing code, now much improved
 - Tokens now call `OnNext()` themselves, making them extensible
