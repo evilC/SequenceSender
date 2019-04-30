@@ -18,7 +18,7 @@ class SequenceSender {
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
 		, RandSleep: "DefaultTokens.RandSleepObj"
 		, WinWaitActive: "DefaultTokens.WinWaitActive"}
-
+	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
 		this.TickFn := this._Tick.Bind(this)
@@ -171,7 +171,8 @@ class SequenceSender {
 				if (this._TokenClasses.HasKey(tc[1])){
 					cn := this._TokenClasses[tc[1]]
 					cls := this._ClassLookup(cn)
-					i := new cls(this, tc[2])
+					tc.RemoveAt(1)
+					i := new cls(this, tc)
 					if (i == ""){
 						throw "Could not create class " cls
 					}
@@ -186,7 +187,7 @@ class SequenceSender {
 						break
 					}
 					s := match[1]
-					Seq.Push(new DefaultTokens.SendObj(this, s))
+					Seq.Push(new DefaultTokens.SendObj(this, [s]))
 					pos += match.Len
 					if (pos > max)
 						break
@@ -212,11 +213,18 @@ class SequenceSender {
 	
 	_SplitToken(tokenStr){
 		ret := []
-		sp := InStr(tokenStr, " ")
-		if (!sp)
-			return [tokenStr]
-		ret[1] := Trim(SubStr(tokenStr, 1, sp))
-		ret[2] := Trim(SubStr(tokenStr, sp))
+		pos := 1
+		while (pos){
+			pos := RegExMatch(tokenStr, "O)(\w+)[ ,]?", match, pos)
+			
+			m := Trim(match[1])
+			if (pos){
+				pos += StrLen(m)
+			} else {
+				break
+			}
+			ret.Push(m)
+		}
 		return ret
 	}
 }
