@@ -1,4 +1,5 @@
 class DefaultTokens {
+	; Handles Send
 	class SendObj extends BaseObjects.BaseObj {
 		Type := 1
 		SendStr := ""
@@ -18,10 +19,11 @@ class DefaultTokens {
 				Send % str
 			}
 			
-			this.OnNext()
+			this.OnNext(0)	; Trigger next action
 		}
 	}
 
+	; Handles Sleep
 	class SleepObj extends BaseObjects.BaseSleepObj {
 		SleepTime := 0
 		TokenName := "Sleep"
@@ -36,6 +38,7 @@ class DefaultTokens {
 
 	}
 
+	; Handles RandSleep
 	class RandSleepObj extends BaseObjects.BaseSleepObj {
 		TokenName := "RandSleep"
 		MinSleep := 0
@@ -52,6 +55,7 @@ class DefaultTokens {
 		}
 	}
 	
+	; Handles WinWaitActive
 	class WinWaitActive extends BaseObjects.BaseSleepObj {
 		TokenName := "WinWaitActive"
 		
@@ -69,7 +73,7 @@ class DefaultTokens {
 		Execute(){
 			OutputDebug % "AHK| Waiting for '" this.WinTitle "' to be active..."
 			WinWaitActive, % this.WinTitle
-			this.OnNext()
+			this.OnNext(0)
 		}
 	}
 }
