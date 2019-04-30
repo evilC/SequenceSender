@@ -5,12 +5,17 @@ class BaseObjects {
 			this.Parent := parent
 			this.Params := params
 			this.Build(params)
-			;~ this.RawText := tokenStr
 		}
 		
 		OnNext(t := 0){
 			fn := this.Parent.TickFn
 			SetTimer, % fn, % "-" t			
+		}
+		
+		Join(sep, params*){
+			for index,param in params
+				str .= param . sep
+			return SubStr(str, 1, -StrLen(sep))
 		}
 	}
 
@@ -22,9 +27,6 @@ class BaseObjects {
 	
 	class BaseSleepObj extends BaseObjects.BaseTokenObj {
 		HasDelay := 1
-		;~ __New(parent, params){
-			;~ base.__New(parent, params)
-		;~ }
 		
 		Execute(){
 			t := this.GetSleepTime()
