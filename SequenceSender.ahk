@@ -1,3 +1,5 @@
+#include %A_LineFile%\..\DefaultTokens.ahk
+
 class SequenceSender {
 	Pos := 1
 	_Aborting := 0
@@ -12,7 +14,7 @@ class SequenceSender {
 	_Debug := false
 	_BlindMode := 0
 	; Class Names for Tokens
-	_TokenClasses := {Sleep : "SequenceSender.SleepObj", RandSleep: "SequenceSender.RandSleepObj"}
+	_TokenClasses := {Sleep : "DefaultTokens.SleepObj", RandSleep: "DefaultTokens.RandSleepObj"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
@@ -181,7 +183,7 @@ class SequenceSender {
 						break
 					}
 					s := match[1]
-					Seq.Push(new this.SendObj(this, s))
+					Seq.Push(new DefaultTokens.SendObj(this, s))
 					pos += match.Len
 					if (pos > max)
 						break
@@ -213,109 +215,5 @@ class SequenceSender {
 		ret[1] := Trim(SubStr(tokenStr, 1, sp))
 		ret[2] := Trim(SubStr(tokenStr, sp))
 		return ret
-	}
-	
-	class BaseObj {
-		HasDelay := 0
-		__New(parent, tokenStr){
-			this.Parent := parent
-			this.Build(tokenStr)
-			this.RawText := tokenStr
-		}
-	}
-
-	class TestClass {
-		__New(p){
-			a := 1
-		}
-	}
-	
-	class BaseTokenObj extends SequenceSender.BaseObj {
-		Type := 2
-		HasDelay := 0
-		TokenName := ""
-	}
-	
-	class SendObj extends SequenceSender.BaseObj {
-		Type := 1
-		SendStr := ""
-		
-		Build(tokenStr){
-			this.SendStr := tokenStr
-		}
-		
-		Execute(){
-			str := this.SendStr
-			if (this.Parent._BlindMode){
-				str := "{Blind}" str
-			}
-			if (this.Parent._Debug){
-				OutputDebug, % "AHK| Sending: " str " @ " A_TickCount
-			} else {
-				Send % str
-			}
-			
-			fn := this.Parent.TickFn
-			SetTimer, % fn, -0
-		}
-	}
-	
-	class BaseSleepObj extends SequenceSender.BaseTokenObj {
-		HasDelay := 1
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Execute(){
-			;~ fn := this.Parent._Tick.Bind(this.Parent)
-			fn := this.Parent.TickFn
-			t := this.GetSleepTime()
-			if (this.Parent._Debug){
-				OutputDebug, % "AHK| Sleeping for " t " @ " A_TickCount
-			}
-			SetTimer, % fn, % "-" t
-		}
-	}
-
-	class SleepObj extends SequenceSender.BaseSleepObj {
-		SleepTime := 0
-		TokenName := "Sleep"
-		
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Build(tokenStr){
-			this.SleepTime := tokenStr
-		}
-		
-		GetSleepTime(){
-			return this.SleepTime
-		}
-
-	}
-
-	class RandSleepObj extends SequenceSender.BaseSleepObj {
-		TokenName := "RandSleep"
-		MinSleep := 0
-		MaxSleep := 0
-		
-		__New(parent, tokenStr){
-			base.__New(parent, tokenStr)
-		}
-		
-		Build(tokenStr){
-			chunks := StrSplit(tokenStr, ",")
-			if (chunks.Length() != 2){
-				throw new Exception("Invalid format for RandSleep: " tokenStr)
-			}
-			this.MinSleep := Trim(chunks[1])
-			this.MaxSleep := Trim(chunks[2])
-		}
-		
-		GetSleepTime(){
-			Random, value, % this.MinSleep, % this.MaxSleep
-			return value
-		}
 	}
 }
