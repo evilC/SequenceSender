@@ -17,7 +17,8 @@ class SequenceSender {
 	; Class Names for Tokens
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
 		, RandSleep: "DefaultTokens.RandSleepObj"
-		, WinWaitActive: "DefaultTokens.WinWaitActive"}
+		, WinWaitActive: "DefaultTokens.WinWaitActive"
+		, WinActivate: "DefaultTokens.WinActivate"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
