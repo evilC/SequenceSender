@@ -215,8 +215,9 @@ class SequenceSender {
 	_SplitToken(tokenStr){
 		ret := []
 		pos := 1
+		max := StrLen(tokenStr)
 		while (pos){
-			pos := RegExMatch(tokenStr, "O)(\w+)[ ,]?", match, pos)
+			pos := RegExMatch(tokenStr, "O)([\w ]+)[,]?", match, pos)
 			
 			m := Trim(match[1])
 			if (pos){
@@ -225,6 +226,8 @@ class SequenceSender {
 				break
 			}
 			ret.Push(m)
+			if (pos == max)
+				break
 		}
 		return ret
 	}
