@@ -23,6 +23,9 @@ Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep, 100]^!{Space}[RandSle
 	
 Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, SendStr: "^#%"}
 	, {Type: 1, SendStr: "%"}])
+	
+Assert("Embedded braces",ss,"{[}{]}", [{Type: 1, SendStr: "["}
+	, {Type: 1, SendStr: "]"}])
 return
 
 ^Esc::
