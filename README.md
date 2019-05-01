@@ -17,7 +17,7 @@ With extra `[Tokens]` to handle Sleeping etc
 * Minimal processing during play-time.  
 All string manipulation is done at load-time.  
 * Extensible  
-New Token Handlers can be added to allow custom operations
+New [Token Handlers](https://github.com/evilC/SequenceSender/blob/master/Lib/DefaultTokens.ahk) can be added to allow custom operations
 
 ## Usage
 ### Overview
