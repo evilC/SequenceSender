@@ -18,6 +18,7 @@ class SequenceSender {
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
 		, RandSleep: "DefaultTokens.RandSleepObj"
 		, WinWaitActive: "DefaultTokens.WinWaitActive"
+		, WinWaitNotActive: "DefaultTokens.WinWaitNotActive"
 		, WinActivate: "DefaultTokens.WinActivate"
 		, ControlSend: "DefaultTokens.ControlSend"
 		, SetKeyDelay: "DefaultTokens.SetKeyDelay"}
