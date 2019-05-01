@@ -145,21 +145,39 @@ class SequenceSender {
 	
 	__BuildSeq(SeqStr){
 		Seq := []
+		
+		inToken := 0
+		inBrace := 0
+		max := StrLen(SeqStr)
+		str := ""
 		chunks := []
-		pos := 1
-		while (pos){
-			pos := RegexMatch(SeqStr, this._TokenRgx, match, pos)
-
-			if (pos == 0){
-				chunks.Push(SeqStr)
-				break
-			} else if (pos > 1){
-				chunks.Push(SubStr(SeqStr, 1, pos - 1))
+		Loop % max {
+			c := SubStr(SeqStr, A_Index, 1)
+			if (c == "]")
+				a := 1
+			if (c == "{" && !inToken){
+				str .= c
+				inBrace := 1
+			} else if (c == "}" && inBrace && !inToken){
+				str .= c
+				inBrace := 0
+			} else if (c == "[" && !inToken && !inBrace){
+				if (str != ""){
+					chunks.Push(str)
+					str := c
+					inToken := 1
+				}
+			} else if (c == "]" && inToken && !inBrace){
+				str .= c
+				chunks.Push(str)
+				str := ""
+				inToken := 0
+			} else {
+				str .= c
 			}
-			chunks.Push(SubStr(SeqStr, pos, match.Len))
-			SeqStr := SubStr(SeqStr, pos + match.Len)
-			if (SeqStr == "")
-				break
+		}
+		if (str != ""){
+			chunks.Push(str)
 		}
 		
 		for i, chunk in chunks {
