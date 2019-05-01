@@ -65,7 +65,7 @@ class DefaultTokens {
 		
 		Execute(){
 			;~ OutputDebug % "AHK| WinWaitActive: '" this.ParamStr "'"
-			OutputDebug % "AHK| WinWaitActive: '" this.ParamStr "' - " this.Params[1]
+			OutputDebug % "AHK| WinWaitActive: '" this.ParamStr "'"
 			;~ WinWaitActive % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4]
 			WinWaitActive % this.Params[1]
 			this.OnNext(0)
@@ -74,11 +74,26 @@ class DefaultTokens {
 	
 	class WinActivate extends BaseObjects.BaseObj {
 		Build(params){
-			this.ParamStr := this.Join(" ", params*)
+			this.ParamStr := this.Join(", ", params*)
 		}
 		
 		Execute(){
 			WinActivate, % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4]
+			this.OnNext(0)
+		}
+	}
+	
+	class ControlSend extends BaseObjects.BaseObj {
+		Build(params){
+			this.ParamStr := this.Join(", ", params*)
+		}
+		
+		Execute(){
+			if (this.Parent._Debug){
+				OutputDebug % "AHK| ControlSend: '" this.ParamStr "'"
+			} else {
+				ControlSend, % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4], % this.Params[5], % this.Params[6]
+			}
 			this.OnNext(0)
 		}
 	}
