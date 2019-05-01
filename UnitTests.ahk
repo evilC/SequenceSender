@@ -13,7 +13,7 @@ Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "{d}"}
 	, {Type: 1, SendStr: "^!{Space}"}])
 	
-Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep 100]^!{Space}[RandSleep 10, 100]", [{Type: 1, SendStr: "a"}
+Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep, 100]^!{Space}[RandSleep, 10, 100]", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "b"}
 	, {Type: 1, SendStr: "^!c"}
 	, {Type: 1, SendStr: "{d}"}
