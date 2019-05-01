@@ -219,13 +219,13 @@ class SequenceSender {
 		while (pos){
 			pos := RegExMatch(tokenStr, "O)([\w ]+)[,]?", match, pos)
 			
-			m := Trim(match[1])
+			m := match[1]
 			if (pos){
 				pos += StrLen(m)
 			} else {
 				break
 			}
-			ret.Push(m)
+			ret.Push(Trim(m))
 			if (pos == max)
 				break
 		}
