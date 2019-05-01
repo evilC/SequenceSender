@@ -24,7 +24,7 @@ New Token Handlers can be added to allow custom operations
 1. Include the library: `#include SequenceSender.ahk`  
 1. Create a new SequenceSender object: `ss := new SequenceSender()`  
 1. Optionally set options, eg `ss.ResetOnStart(false)`
-1. Load a SequenceString: `ss.Load("^a^c[Sleep 100]!{Tab}^v")`  
+1. Load a SequenceString: `ss.Load("^a^c[Sleep, 100]!{Tab}^v")`  
 1. Start using `ss.Start()`, stop using `ss.Stop()`  
 
 ### SequenceStrings
@@ -38,10 +38,10 @@ This tells SequenceSender to send some keys.
 1. TokenString  
 This tells SequenceSender to take a special action
     1. It is wrapped in the Token Delimiters (`[` and `]`)  
-    1. Example token: `[Sleep 100]` to sleep for 100ms  
+    1. Example token: `[Sleep, 100]` to sleep for 100ms  
 
 A SequenceString may comprise of any number of SendStrings and TokenStrings  
-eg `^a[Sleep 100]^c` to send Ctrl-A, wait 100ms, then send Ctrl-C  
+eg `^a[Sleep, 100]^c` to send Ctrl-A, wait 100ms, then send Ctrl-C  
 
 ### SequenceSender object Method Reference
 Once you have created a new SequenceSender object (eg using `ss := new SequenceSender()`), then the following functions are available for you to use:  
@@ -95,19 +95,19 @@ Toggles between Start and Stop
 #### TokenStrings
 The following TokenStrings are included:
 ##### Sleep
-`[Sleep <time>]`  
-eg `ss.Load("^c[Sleep 100]^v")`  
+`[Sleep, <time>]`  
+eg `ss.Load("^c[Sleep, 100]^v")`  
 Inserts a pause of `<time>` ms into the Sequence
 
 ##### RandSleep
-`[RandSleep <min time>, <max time>]`  
-eg `ss.Load("^c[RandSleep 10, 100]^v")`  
+`[RandSleep, <min time>, <max time>]`  
+eg `ss.Load("^c[RandSleep, 10, 100]^v")`  
 Inserts a random sleep of between `<min time>` ms and `<max time>` ms
 Each time this Token is hit in the sequence, a new random time is picked
 
 ##### WinWaitActive
-`[WinWaitActive <WinTitle>]`  
-eg `ss.Load([WinWaitActive ahk_class Notepad])`  
+`[WinWaitActive, <WinTitle>]`  
+eg `ss.Load([WinWaitActive, ahk_class Notepad])`  
 Same as AHK's WinWaitActive command  
 
 #### Chaining  
