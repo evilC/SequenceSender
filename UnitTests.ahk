@@ -31,6 +31,8 @@ Assert("Token chars in braces with token",ss,"{[}[Sleep, 100]{]}", [{Type: 1, Se
 	, {Type: 2, TokenName: "Sleep"}
 	, {Type: 1, SendStr: "{]}"}])
 
+Assert("Token containing braces",ss,"[{DummyToken}]", [{Type: 2, TokenName: "DummyToken"}])
+
 return
 
 ^Esc::
