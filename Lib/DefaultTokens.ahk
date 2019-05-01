@@ -23,6 +23,12 @@ class DefaultTokens {
 		}
 	}
 
+	; Used for Unit Tests
+	class DummyToken extends BaseObjects.BaseObj {
+		Type := 2
+		TokenName := "DummyToken"
+	}
+	
 	; Handles Sleep
 	class SleepObj extends BaseObjects.BaseSleepObj {
 		SleepTime := 0
