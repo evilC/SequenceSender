@@ -20,12 +20,17 @@ Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep, 100]^!{Space}[RandSle
 	, {Type: 2, TokenName: "Sleep", SleepTime: "100"}
 	, {Type: 1, SendStr: "^!{Space}"}
 	, {Type: 2, TokenName: "RandSleep", MinSleep: 10, MaxSleep: 100}])
-	
+
 Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, SendStr: "^#%"}
 	, {Type: 1, SendStr: "%"}])
-	
-Assert("Embedded braces",ss,"{[}{]}", [{Type: 1, SendStr: "["}
-	, {Type: 1, SendStr: "]"}])
+
+Assert("Embedded braces",ss,"{[}{]}", [{Type: 1, SendStr: "{[}"}
+	, {Type: 1, SendStr: "{]}"}])
+
+Assert("Embedded braces with token",ss,"{[}[Sleep, 100]{]}", [{Type: 1, SendStr: "{[}"}
+	, {Type: 2, TokenName: "Sleep"}
+	, {Type: 1, SendStr: "{]}"}])
+
 return
 
 ^Esc::
@@ -33,6 +38,7 @@ GuiClose:
 	ExitApp
 
 Assert(name, seqSender, seqStr, expected){
+	failed := 0
 	err := 0
 	results := seqSender.__BuildSeq(seqStr)
 	al := results.Length()
@@ -45,10 +51,12 @@ Assert(name, seqSender, seqStr, expected){
 			if (!a.HasKey(k)){
 				str .= "Result " A_Index " does not have key " k
 				WriteLog(str)
+				failed := 1
 				break
 			}
 			if (a[k] != v){
-				str .= "Expected position " A_Index " to be " v ", but found " a[k]
+				str .= "Expected position " A_Index ", key " k " to be " v ", but found " a[k]
+				failed := 1
 				WriteLog(str)
 				break
 			}
@@ -56,9 +64,12 @@ Assert(name, seqSender, seqStr, expected){
 	}
 	if (al != el){
 		WriteLog("FAIL: " name " - Expecting " el " matches, but got " al " matches")
+		failed := 1
 		return
 	}
-	WriteLog("PASS: " name)
+	if (!failed){
+		WriteLog("PASS: " name)
+	}
 }
 
 WriteLog(text){
