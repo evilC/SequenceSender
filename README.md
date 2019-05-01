@@ -48,21 +48,21 @@ Once you have created a new SequenceSender object (eg using `ss := new SequenceS
 
 #### Option Setting Methods  
 ##### Repeat
-`Repeat(<true/false>)`  
+`Repeat(true/false)`  
 eg `ss.Repeat(true)`  
 Sets whether or not the sequence repeats once it gets to the end  
 Default is `True`  
 **Note that one of `Repeat` or `ResetOnStart` must be set to True**  
 
 ##### ResetOnStart
-`ResetOnStart(<true/false>)`  
+`ResetOnStart(true/false)`  
 eg `ss.ResetOnStart(false)`  
 Sets whether or not the sequence resumes from the start (True) or where it left off (False) when you call `Start()`  
 Default is `True`  
 **Note that one of `Repeat` or `ResetOnStart` must be set to True**  
 
 ##### Debug
-`Debug(<true/false>)`  
+`Debug(true/false)`  
 eg `ss.Debug(true)`  
 Sets Debug Mode on  
 In Debug Mode, no characters will be sent - instead they will be logged out to the debug stream  
@@ -70,7 +70,7 @@ Use SCiTE4AutoHotkey or DebugView to view the debug output.
 Defaults to `False`  
 
 ##### BlindMode
-`BlindMode(<true/false>)`  
+`BlindMode(true/false)`  
 eg `ss.BlindMode(true)`  
 Enables or Disables the `{Blind}` prefix for Sends  
 Defaults to `False`  
@@ -95,20 +95,35 @@ Toggles between Start and Stop
 #### TokenStrings
 The following TokenStrings are included:
 ##### Sleep
-`[Sleep, <time>]`  
+`[Sleep, time]`  
 eg `ss.Load("^c[Sleep, 100]^v")`  
-Inserts a pause of `<time>` ms into the Sequence
+Inserts a pause of `time` ms into the Sequence
 
 ##### RandSleep
-`[RandSleep, <min time>, <max time>]`  
+`[RandSleep, min time, max time]`  
 eg `ss.Load("^c[RandSleep, 10, 100]^v")`  
-Inserts a random sleep of between `<min time>` ms and `<max time>` ms
+Inserts a random sleep of between `min time` ms and `max time` ms
 Each time this Token is hit in the sequence, a new random time is picked
 
+##### ControlSend
+`[ControlSend , Control, Keys, WinTitle, WinText, ExcludeTitle, ExcludeText]`  
+eg `ss.Load([ControlSend, , {Space}, ahk_class Notepad])`  
+Same as AHK's ControlSend command  
+
 ##### WinWaitActive
-`[WinWaitActive, <WinTitle>]`  
+`[WinWaitActive , WinTitle, WinText, Seconds, ExcludeTitle, ExcludeText]`  
 eg `ss.Load([WinWaitActive, ahk_class Notepad])`  
 Same as AHK's WinWaitActive command  
+
+##### WinWaitNotActive
+`[WinWaitNotActive , WinTitle, WinText, Seconds, ExcludeTitle, ExcludeText]`  
+eg `ss.Load([WinWaitActive, ahk_class Notepad])`  
+Same as AHK's WinWaitNotActive command  
+
+##### WinActivate
+`[WinActivate , WinTitle, WinText, ExcludeTitle, ExcludeText]`  
+eg `ss.Load([WinActivate, ahk_class Notepad])`  
+Same as AHK's WinActivate command  
 
 #### Chaining  
 All Methods can be "chained".  
