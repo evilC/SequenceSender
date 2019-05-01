@@ -1,6 +1,3 @@
-#include %A_LineFile%\..\BaseObjects.ahk
-#include %A_LineFile%\..\DefaultTokens.ahk
-
 class SequenceSender {
 	Pos := 1
 	_Aborting := 0
@@ -18,7 +15,8 @@ class SequenceSender {
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
 		, RandSleep: "DefaultTokens.RandSleepObj"
 		, WinWaitActive: "DefaultTokens.WinWaitActive"
-		, WinActivate: "DefaultTokens.WinActivate"}
+		, WinActivate: "DefaultTokens.WinActivate"
+		, ControlSend: "DefaultTokens.ControlSend"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
@@ -164,9 +162,10 @@ class SequenceSender {
 			} else if (c == "[" && !inToken && !inBrace){
 				if (str != ""){
 					chunks.Push(str)
-					str := c
-					inToken := 1
+					str := ""
 				}
+				str := c
+				inToken := 1
 			} else if (c == "]" && inToken && !inBrace){
 				str .= c
 				chunks.Push(str)
