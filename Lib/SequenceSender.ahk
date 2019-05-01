@@ -16,6 +16,7 @@ class SequenceSender {
 	_BlindMode := 0
 	; Class Names for Tokens
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
+		, DummyToken: "DefaultTokens.DummyToken"
 		, RandSleep: "DefaultTokens.RandSleepObj"
 		, WinWaitActive: "DefaultTokens.WinWaitActive"
 		, WinWaitNotActive: "DefaultTokens.WinWaitNotActive"
