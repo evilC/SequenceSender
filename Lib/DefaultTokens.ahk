@@ -97,4 +97,19 @@ class DefaultTokens {
 			this.OnNext(0)
 		}
 	}
+	
+	class SetKeyDelay extends BaseObjects.BaseObj {
+		Build(params){
+			this.ParamStr := this.Join(", ", params*)
+		}
+		
+		Execute(){
+			if (this.Parent._Debug){
+				OutputDebug % "AHK| SetKeyDelay: '" this.ParamStr "'"
+			} else {
+				SetKeyDelay, % this.Params[1], % this.Params[2]
+			}
+			this.OnNext(0)
+		}
+	}
 }
