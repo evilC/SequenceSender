@@ -24,10 +24,10 @@ Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep, 100]^!{Space}[RandSle
 Assert("Symbol Hotkeys Basic Test",ss,"^#%%", [{Type: 1, SendStr: "^#%"}
 	, {Type: 1, SendStr: "%"}])
 
-Assert("Embedded braces",ss,"{[}{]}", [{Type: 1, SendStr: "{[}"}
+Assert("Token chars in braces",ss,"{[}{]}", [{Type: 1, SendStr: "{[}"}
 	, {Type: 1, SendStr: "{]}"}])
 
-Assert("Embedded braces with token",ss,"{[}[Sleep, 100]{]}", [{Type: 1, SendStr: "{[}"}
+Assert("Token chars in braces with token",ss,"{[}[Sleep, 100]{]}", [{Type: 1, SendStr: "{[}"}
 	, {Type: 2, TokenName: "Sleep"}
 	, {Type: 1, SendStr: "{]}"}])
 
