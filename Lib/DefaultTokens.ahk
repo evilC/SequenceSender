@@ -55,7 +55,6 @@ class DefaultTokens {
 		}
 	}
 	
-	; Handles WinWaitActive
 	class WinWaitActive extends BaseObjects.BaseSleepObj {
 		TokenName := "WinWaitActive"
 		
@@ -64,15 +63,29 @@ class DefaultTokens {
 		}
 		
 		Execute(){
-			;~ OutputDebug % "AHK| WinWaitActive: '" this.ParamStr "'"
 			OutputDebug % "AHK| WinWaitActive: '" this.ParamStr "'"
-			;~ WinWaitActive % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4]
-			WinWaitActive % this.Params[1]
+			WinWaitActive % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4]
+			this.OnNext(0)
+		}
+	}
+	
+	class WinWaitNotActive extends BaseObjects.BaseSleepObj {
+		TokenName := "WinWaitNotActive"
+		
+		Build(params){
+			this.ParamStr := this.Join(" ", params*)
+		}
+		
+		Execute(){
+			OutputDebug % "AHK| WinWaitNotActive: '" this.ParamStr "'"
+			WinWaitNotActive % this.Params[1], % this.Params[2], % this.Params[3], % this.Params[4]
 			this.OnNext(0)
 		}
 	}
 	
 	class WinActivate extends BaseObjects.BaseObj {
+		TokenName := "WinActivate"
+		
 		Build(params){
 			this.ParamStr := this.Join(", ", params*)
 		}
@@ -84,6 +97,8 @@ class DefaultTokens {
 	}
 	
 	class ControlSend extends BaseObjects.BaseObj {
+		TokenName := "ControlSend"
+		
 		Build(params){
 			this.ParamStr := this.Join(", ", params*)
 		}
@@ -99,6 +114,8 @@ class DefaultTokens {
 	}
 	
 	class SetKeyDelay extends BaseObjects.BaseObj {
+		TokenName := "SetKeyDelay"
+		
 		Build(params){
 			this.ParamStr := this.Join(", ", params*)
 		}
