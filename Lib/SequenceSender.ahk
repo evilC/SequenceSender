@@ -1,3 +1,6 @@
+#include %A_LineFile%\..\BaseObjects.ahk
+#include %A_LineFile%\..\DefaultTokens.ahk
+
 class SequenceSender {
 	Pos := 1
 	_Aborting := 0
@@ -16,7 +19,8 @@ class SequenceSender {
 		, RandSleep: "DefaultTokens.RandSleepObj"
 		, WinWaitActive: "DefaultTokens.WinWaitActive"
 		, WinActivate: "DefaultTokens.WinActivate"
-		, ControlSend: "DefaultTokens.ControlSend"}
+		, ControlSend: "DefaultTokens.ControlSend"
+		, SetKeyDelay: "DefaultTokens.SetKeyDelay"}
 	
 	__New(){
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
