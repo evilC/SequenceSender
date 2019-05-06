@@ -56,13 +56,12 @@ class SequenceSender {
 	}
 	
 	Start(){
+		if (this._SequenceActive)
+			return
 		OutputDebug % "AHK| Starting timer"
 		if (this._ResetOnStart){
 			this.Pos := 1
 		}
-		;~ this._Tick()
-		if (this._SequenceActive)
-			return
 		this._Start()
 		return this
 	}
@@ -116,6 +115,7 @@ class SequenceSender {
 		n := item.TokenName
 		
 		atEnd := this.Pos >= this._Seq.Length()
+		OutputDebug % "AHK|_Tick - Pos = " this.Pos
 		if (atEnd){
 			if (this._Repeat){
 				this.Pos := 0
