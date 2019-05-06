@@ -35,12 +35,12 @@ This tells SequenceSender to send some keys.
     1. It is in normal AHK `Send` format, eg `^a` or `^{a}` to send Ctrl-A  
     1. When sending, any modifiers plus **one** key are sent at a time  
       eg A SendString of `^a^{b}ccc` will send in 5 chunks: `^a`, `^{b}` `c`, `c`, `c`
-1. TokenString  
+1. Tokens  
 This tells SequenceSender to take a special action
     1. It is wrapped in the Token Delimiters (`[` and `]`)  
     1. Example token: `[Sleep, 100]` to sleep for 100ms  
 
-A SequenceString may comprise of any number of SendStrings and TokenStrings  
+A SequenceString may comprise of any number of SendStrings and Tokens  
 eg `^a[Sleep, 100]^c` to send Ctrl-A, wait 100ms, then send Ctrl-C  
 
 ### SequenceSender object Method Reference
@@ -92,8 +92,13 @@ Stops sending
 eg `ss.Toggle()`  
 Toggles between Start and Stop  
 
-#### TokenStrings
-The following TokenStrings are included:
+##### AddTokenClass
+`AddTokenClass(token name, class name)`  
+eg `ss.AddTokenClass("MyToken", "MyTokenClass")`  
+Use your own class as a Token - see the `CustomToken.ahk` for an example  
+
+#### Default Tokens
+The following Tokens are included:
 ##### Sleep
 `[Sleep, time]`  
 eg `ss.Load("^c[Sleep, 100]^v")`  
