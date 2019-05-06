@@ -8,10 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Toggle() method
 - WinWaitActive, WinWaitNotActive, WinActivate, ControlSend, SetKeyDelay Tokens
 - Unit Tests for parsing function
+- Sample Custom Token class
 ### Changed 
 - Rewrote string parsing code, now much improved
 - Tokens now call `OnNext()` themselves, making them extensible
-- Tokens now extensible by adding a new class
+- Tokens now extensible by adding a new class  
+- Added AddTokenClass endpoint
 ### Deprecated
 ### Removed
 - Removed Token Delimiter customization
