@@ -1,6 +1,6 @@
+#SingleInstance force
 #include Lib\SequenceSender.ahk
 
-#SingleInstance force
 OutputDebug, DBGVIEWCLEAR
 
 ss := new SequenceSender()
@@ -8,13 +8,10 @@ ss := new SequenceSender()
 	;~ .BlindMode(true)			; Turn on Blind send mode
 	;~ .Repeat(false)			; Disable Repeating
 	;~ .ResetOnStart(false)		; Disable Reset on Start
-	;~ .Load("^c^{a}[Sleep, 100]abcdef{Left}^{c}[RandSleep, 10, 100]^{v}^{Right}")
-	;~ .Load("{1}{2}{3}{4}{5}{6}{7}{8}{9}")
-	.Load("{1}[WinActivate, ahk_class Notepad]{2}[WinWaitActive, ahk_class Notepad]{3}")
-	;~ .Load("^{Home}[Sleep, 100]+^{Right}^{c}[RandSleep, 10, 100]^{v}")
-	;~ .Load("^c[Sleep, 100]abcdef{Right}^{c}[RandSleep, 10, 100]^{v}")
-	;~ .Load("^c^{a}[Sleep, 100]abcdef{Right}[RandSleep, 10, 100]^{v}^{Right}")
-	;~ .Load("^{Home}(Sleep, 100)+^{Right}^{c}(RandSleep, 10, 100)^{v}")
+	;~ .Load("abc")				; Basic send
+	;~ .Load("^c^{a}[Sleep, 100]abcdef{Left}^{c}[RandSleep, 10, 100]^{v}^{Right}")			; Sleep Tokens
+	.Load("{1}[WinActivate, ahk_class Notepad]{2}[WinWaitActive, ahk_class Notepad]{3}")	; Window Tokens
+	;~ .Load("[SetKeyDelay, 1000, 1000]abc[SetKeyDelay, 50, 50]def")							; KeyDelay Token
 return
 
 $F12::ss.Toggle()

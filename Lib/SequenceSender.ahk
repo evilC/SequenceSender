@@ -50,18 +50,8 @@ class SequenceSender {
 		return this
 	}
 	
-	SetTokenChars(open, close){
-		tc := [open, close]
-		Loop 2 {
-			if (InStr(this._ForbiddenTokens, tc[A_Index])){
-				throw "Invalid character used for Token: " tc[A_Index]
-			}
-			if (InStr(this._EscapeChars, tc[A_Index])){
-				tc[A_Index] := "\" tc[A_Index]
-			}
-		}
-
-		this._TokenChars := tc
+	AddTokenClass(name, cls){
+		this._TokenClasses[name] := cls
 		return this
 	}
 	

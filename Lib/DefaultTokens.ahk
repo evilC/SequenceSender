@@ -24,7 +24,7 @@ class DefaultTokens {
 	}
 
 	; Used for Unit Tests
-	class DummyToken extends BaseObjects.BaseObj {
+	class DummyToken extends BaseObjects.BaseTokenObj {
 		Type := 2
 		TokenName := "DummyToken"
 	}
@@ -65,7 +65,7 @@ class DefaultTokens {
 		TokenName := "WinWaitActive"
 		
 		Build(params){
-			this.ParamStr := this.Join(" ", params*)
+			this.ParamStr := this.Join(" ", params)
 		}
 		
 		Execute(){
@@ -79,7 +79,7 @@ class DefaultTokens {
 		TokenName := "WinWaitNotActive"
 		
 		Build(params){
-			this.ParamStr := this.Join(" ", params*)
+			this.ParamStr := this.Join(" ", params)
 		}
 		
 		Execute(){
@@ -89,11 +89,11 @@ class DefaultTokens {
 		}
 	}
 	
-	class WinActivate extends BaseObjects.BaseObj {
+	class WinActivate extends BaseObjects.BaseTokenObj {
 		TokenName := "WinActivate"
 		
 		Build(params){
-			this.ParamStr := this.Join(", ", params*)
+			this.ParamStr := this.Join(", ", params)
 		}
 		
 		Execute(){
@@ -102,11 +102,11 @@ class DefaultTokens {
 		}
 	}
 	
-	class ControlSend extends BaseObjects.BaseObj {
+	class ControlSend extends BaseObjects.BaseTokenObj {
 		TokenName := "ControlSend"
 		
 		Build(params){
-			this.ParamStr := this.Join(", ", params*)
+			this.ParamStr := this.Join(", ", params)
 		}
 		
 		Execute(){
@@ -119,11 +119,11 @@ class DefaultTokens {
 		}
 	}
 	
-	class SetKeyDelay extends BaseObjects.BaseObj {
+	class SetKeyDelay extends BaseObjects.BaseTokenObj {
 		TokenName := "SetKeyDelay"
 		
 		Build(params){
-			this.ParamStr := this.Join(", ", params*)
+			this.ParamStr := this.Join(", ", params)
 		}
 		
 		Execute(){
