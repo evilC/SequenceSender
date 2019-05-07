@@ -33,6 +33,13 @@ Assert("Token chars in braces with token",ss,"{[}[Sleep, 100]{]}", [{Type: 1, Se
 
 Assert("Token containing braces",ss,"[{DummyToken}]", [{Type: 2, TokenName: "DummyToken"}])
 
+Assert("Brace chars in braces",ss,"a{{}[{DummyToken}]{}}b", [{Type: 1, SendStr: "a"}
+	, {Type: 1, SendStr: "{{}"}
+	, {Type: 2, TokenName: "DummyToken"}
+	, {Type: 1, SendStr: "{}}"}
+	, {Type: 1, SendStr: "b"}])
+
+
 return
 
 ^Esc::
@@ -81,7 +88,7 @@ WriteLog(text){
 }
 
 AppendText(hEdit, ptrText) {
-    SendMessage, 0x000E, 0, 0,, ahk_id %hEdit% ;WM_GETTEXTLENGTH
-    SendMessage, 0x00B1, ErrorLevel, ErrorLevel,, ahk_id %hEdit% ;EM_SETSEL
-    SendMessage, 0x00C2, False, ptrText,, ahk_id %hEdit% ;EM_REPLACESEL
+	SendMessage, 0x000E, 0, 0,, ahk_id %hEdit% ;WM_GETTEXTLENGTH
+	SendMessage, 0x00B1, ErrorLevel, ErrorLevel,, ahk_id %hEdit% ;EM_SETSEL
+	SendMessage, 0x00C2, False, ptrText,, ahk_id %hEdit% ;EM_REPLACESEL
 }
