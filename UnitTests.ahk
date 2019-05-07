@@ -12,6 +12,13 @@ Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "^!c"}
 	, {Type: 1, SendStr: "{d}"}
 	, {Type: 1, SendStr: "^!{Space}"}])
+
+
+Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
+	, {Type: 1, SendStr: "b"}
+	, {Type: 1, SendStr: "^!c"}
+	, {Type: 1, SendStr: "{d}"}
+	, {Type: 1, SendStr: "^!{Space}"}])
 	
 Assert("Differentiate Keys and Tokens",ss,"ab^!c{d}[Sleep, 100]^!{Space}[RandSleep, 10, 100]", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "b"}
@@ -39,17 +46,35 @@ Assert("Brace chars in braces",ss,"a{{}[{DummyToken}]{}}b", [{Type: 1, SendStr: 
 	, {Type: 1, SendStr: "{}}"}
 	, {Type: 1, SendStr: "b"}])
 
+Assert("Throws error for invalid Token mame", ss, "[NotAToken]", [], ["Unknown Token name 'NotAToken'"])
 
+ss := new SequenceSender()
+ss._TokenClasses := {TestToken: "NoClass"}
+Assert("Throws error if class not found", ss, "[TestToken]", [], ["Could not create class 'NoClass'"])
+
+ss := new SequenceSender()
+	.ResetOnStart(false)
+	.Repeat(false)
+Assert("Throws error if ResetOnStart and Repeat are false", ss, "a"
+	, []
+	, ["One of ResetOnStart or Repeat must be true"])
 return
 
 ^Esc::
 GuiClose:
 	ExitApp
 
-Assert(name, seqSender, seqStr, expected){
+Assert(name, seqSender, seqStr, expected, expectedErrors := 0){
+	global ActualErrors
+	if (expectedErrors == 0)
+		expectedErrors := []
+	seqSender._errFn := Func("OnError")
+	ActualErrors := []
 	failed := 0
 	err := 0
 	results := seqSender.__BuildSeq(seqStr)
+	if (results == "")
+		results := []
 	al := results.Length()
 	el := expected.Length()
 	Loop % el {
@@ -76,9 +101,30 @@ Assert(name, seqSender, seqStr, expected){
 		failed := 1
 		return
 	}
+	ael := ActualErrors.Length()
+	eel := expectedErrors.Length()
+	if (eel != ael){
+		WriteLog("FAIL: " name " - Expecting " eel " errors, but got " ael " errors")
+		failed := 1
+		return
+	}
+	Loop % eel {
+		a := ActualErrors[A_Index]
+		e := expectedErrors[A_Index]
+		if (a != e){
+			WriteLog("FAIL: " name " - Expecting error " e ", but got error " a)
+			failed := 1
+			break
+		}
+	}
 	if (!failed){
 		WriteLog("PASS: " name)
 	}
+}
+
+OnError(msg){
+	global ActualErrors
+	ActualErrors.Push(msg)
 }
 
 WriteLog(text){

@@ -25,6 +25,7 @@ class SequenceSender {
 		, SetKeyDelay: "DefaultTokens.SetKeyDelay"}
 	
 	__New(){
+		this._errFn := this._OnError.Bind(this)
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
 		this.TickFn := this._Tick.Bind(this)
 		for i, v in this._SeqTypeToName {
@@ -33,9 +34,6 @@ class SequenceSender {
 	}
 	
 	Load(seq){
-		if (!this._ResetOnStart && !this._Repeat){
-			throw "One of ResetOnStart or Repeat must be true"
-		}
 		this._BuildSeq(seq)
 		return this
 	}
@@ -138,6 +136,10 @@ class SequenceSender {
 	}
 	
 	__BuildSeq(SeqStr){
+		if (!this._ResetOnStart && !this._Repeat){
+			this._errFn.Call("One of ResetOnStart or Repeat must be true")
+			return ; When testing, the error will not halt execution
+		}
 		Seq := []
 		
 		inToken := 0
@@ -197,9 +199,13 @@ class SequenceSender {
 					tc.RemoveAt(1)
 					i := new cls(this, tc)
 					if (i == ""){
-						throw "Could not create class " cls
+						this._errFn.Call("Could not create class '" cn "'")
+						return ; When testing, the error will not halt execution
 					}
 					Seq.Push(i)
+				} else {
+					this._errFn.Call("Unknown Token name '" tc[1] "'")
+					return ; When testing, the error will not halt execution
 				}
 			} else { 
 				; Send String
@@ -220,6 +226,11 @@ class SequenceSender {
 		return Seq
 	}
 	
+	_OnError(msg){
+		throw % msg
+	}
+	
+
 	; By nnik
 	; https://www.autohotkey.com/boards/viewtopic.php?p=273269#p273269
 	_ClassLookup(name) {

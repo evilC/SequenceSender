@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Toggle() method
 - WinWaitActive, WinWaitNotActive, WinActivate, ControlSend, SetKeyDelay Tokens
-- Unit Tests for parsing function
+- Unit Tests for parsing function and errors
 - Sample Custom Token class
 ### Changed 
 - Rewrote string parsing code, now much improved
