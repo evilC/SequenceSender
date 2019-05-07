@@ -1,3 +1,8 @@
+/*
+Unit Tests for parsing of SequenceString
+If making any changes to the library, run these after to make sure you did not break anything!
+*/
+
 #SingleInstance force
 #include Lib\SequenceSender.ahk
 #Persistent
@@ -12,7 +17,6 @@ Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "^!c"}
 	, {Type: 1, SendStr: "{d}"}
 	, {Type: 1, SendStr: "^!{Space}"}])
-
 
 Assert("Basic Key Chunking",ss,"ab^!c{d}^!{Space}", [{Type: 1, SendStr: "a"}
 	, {Type: 1, SendStr: "b"}

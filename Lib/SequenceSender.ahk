@@ -14,7 +14,7 @@ class SequenceSender {
 	_SeqNameToType := {}
 	_Debug := false
 	_BlindMode := 0
-	; Class Names for Tokens
+	; Class Names for Tokens - DO NOT CHANGE NAME, Unit Tests rely on it
 	_TokenClasses := {Sleep : "DefaultTokens.SleepObj"
 		, DummyToken: "DefaultTokens.DummyToken"
 		, RandSleep: "DefaultTokens.RandSleepObj"
@@ -25,6 +25,7 @@ class SequenceSender {
 		, SetKeyDelay: "DefaultTokens.SetKeyDelay"}
 	
 	__New(){
+		; DO NOT CHANGE THE NAME OF _errFn! The Unit Tests replace it with a mock
 		this._errFn := this._OnError.Bind(this)
 		this._SendRgx := "OU)([" this._Mods "]*({.+}|[^" this._Mods "]))"
 		this.TickFn := this._Tick.Bind(this)
@@ -135,6 +136,8 @@ class SequenceSender {
 		this._Seq := this.__BuildSeq(SeqStr)
 	}
 	
+	; Parses the SequenceString
+	; DO NOT CHANGE THE NAME OF THIS METHOD! The Unit Tests call it directly
 	__BuildSeq(SeqStr){
 		if (!this._ResetOnStart && !this._Repeat){
 			this._errFn.Call("One of ResetOnStart or Repeat must be true")
