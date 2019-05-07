@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 - Removed Token Delimiter customization
 ### Fixed
+- Fix Braces in Braces (`{{}` and `{}}`)
 
 ## 0.0.0 - 2019-04-29
 ### Added
