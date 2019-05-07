@@ -25,7 +25,7 @@ New [Token Handlers](https://github.com/evilC/SequenceSender/blob/master/Lib/Def
 1. Create a new SequenceSender object: `ss := new SequenceSender()`  
 1. Optionally set options, eg `ss.ResetOnStart(false)`
 1. Load a SequenceString: `ss.Load("^a^c[Sleep, 100]!{Tab}^v")`  
-1. Start sedning using `ss.Start()`, stop using `ss.Stop()` or Toggle using `ss.Toggle()`    
+1. Start sending using `ss.Start()`, stop using `ss.Stop()` or Toggle using `ss.Toggle()`    
 
 ### SequenceStrings
 A SequenceString is a string of text which describes to SequenceSender what needs to be sent and the timings that need to be used  
