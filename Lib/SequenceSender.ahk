@@ -143,6 +143,7 @@ class SequenceSender {
 			this._errFn.Call("One of ResetOnStart or Repeat must be true")
 			return ; When testing, the error will not halt execution
 		}
+		SeqStr := RegExReplace(SeqStr, "\s*([\w] *[\w]?)", "$1") ; Remove Join artefacts (Newline, indenting etc)
 		Seq := []
 		
 		inToken := 0

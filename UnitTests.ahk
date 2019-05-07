@@ -50,6 +50,19 @@ Assert("Brace chars in braces",ss,"a{{}[{DummyToken}]{}}b", [{Type: 1, SendStr: 
 	, {Type: 1, SendStr: "{}}"}
 	, {Type: 1, SendStr: "b"}])
 
+
+; Joining ======================================================================================
+
+joinedText := "`ta`r`n`tb`n  c  d"
+Assert("Joined SendStrings work",ss, joinedText, [{Type: 1, SendStr: "a"}
+	, {Type: 1, SendStr: "b"}
+	, {Type: 1, SendStr: "c"}
+	, {Type: 1, SendStr: " "}
+	, {Type: 1, SendStr: " "}
+	, {Type: 1, SendStr: "d"}])
+
+; Errors =======================================================================================
+
 Assert("Throws error for invalid Token mame", ss, "[NotAToken]", [], ["Unknown Token name 'NotAToken'"])
 
 ss := new SequenceSender()
