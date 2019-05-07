@@ -145,16 +145,23 @@ class SequenceSender {
 		max := StrLen(SeqStr)
 		str := ""
 		chunks := []
+		charsInBrace := 0
 		Loop % max {
 			c := SubStr(SeqStr, A_Index, 1)
 			if (c == "]")
 				a := 1
-			if (c == "{" && !inToken){
+			if (c == "{" && !inBrace && !inToken){
+				; Open brace
+				charsInBrace := 0
 				str .= c
 				inBrace := 1
-			} else if (c == "}" && inBrace && !inToken){
+			} else if (c == "}" && inBrace && !inToken && charsInBrace > 0){
+				; Close brace
+				charsInBrace := 0
 				str .= c
 				inBrace := 0
+				chunks.Push(str)
+				str := ""
 			} else if (c == "[" && !inToken && !inBrace){
 				if (str != ""){
 					chunks.Push(str)
@@ -169,6 +176,8 @@ class SequenceSender {
 				inToken := 0
 			} else {
 				str .= c
+				if (inBrace)
+					charsInBrace++
 			}
 		}
 		if (str != ""){
