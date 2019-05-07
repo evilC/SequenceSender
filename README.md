@@ -112,22 +112,22 @@ Each time this Token is hit in the sequence, a new random time is picked
 
 ##### ControlSend
 `[ControlSend , Control, Keys, WinTitle, WinText, ExcludeTitle, ExcludeText]`  
-eg `ss.Load([ControlSend, , {Space}, ahk_class Notepad])`  
+eg `ss.Load("[ControlSend, , {Space}, ahk_class Notepad]")`  
 Same as AHK's ControlSend command  
 
 ##### WinWaitActive
 `[WinWaitActive , WinTitle, WinText, Seconds, ExcludeTitle, ExcludeText]`  
-eg `ss.Load([WinWaitActive, ahk_class Notepad])`  
+eg `ss.Load("[WinWaitActive, ahk_class Notepad]")`  
 Same as AHK's WinWaitActive command  
 
 ##### WinWaitNotActive
 `[WinWaitNotActive , WinTitle, WinText, Seconds, ExcludeTitle, ExcludeText]`  
-eg `ss.Load([WinWaitActive, ahk_class Notepad])`  
+eg `ss.Load("[WinWaitActive, ahk_class Notepad]")`  
 Same as AHK's WinWaitNotActive command  
 
 ##### WinActivate
 `[WinActivate , WinTitle, WinText, ExcludeTitle, ExcludeText]`  
-eg `ss.Load([WinActivate, ahk_class Notepad])`  
+eg `ss.Load("[WinActivate, ahk_class Notepad]")`  
 Same as AHK's WinActivate command  
 
 #### Chaining  
