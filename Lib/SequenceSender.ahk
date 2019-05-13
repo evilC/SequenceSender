@@ -73,6 +73,14 @@ class SequenceSender {
 		return this
 	}
 	
+	SetState(state){
+		if (state){
+			this.Start()
+		} else {
+			this.Stop()
+		}
+	}
+	
 	Toggle(){
 		if (this._SequenceActive)
 			this.Stop()
