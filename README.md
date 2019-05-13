@@ -92,6 +92,11 @@ Stops sending
 eg `ss.Toggle()`  
 Toggles between Start and Stop  
 
+##### SetState
+`SetState(state)`  
+eg `ss.SetState(true)`  
+Calls `Start()` if true, else `Stop()`  
+
 ##### AddTokenClass
 `AddTokenClass(token name, class name)`  
 eg `ss.AddTokenClass("MyToken", "MyTokenClass")`  
