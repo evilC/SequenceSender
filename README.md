@@ -21,6 +21,9 @@ New [Token Handlers](https://github.com/evilC/SequenceSender/blob/master/Lib/Def
 
 ## Usage
 ### Overview
+1. Download the library using the green "Clone or Download" button above
+1. Unzip the contents to a folder of your choice
+1. Create a new script in the same folder as `Simple Example.ahk`
 1. Include the library: `#include SequenceSender.ahk`  
 1. Create a new SequenceSender object: `ss := new SequenceSender()`  
 1. Optionally set options, eg `ss.ResetOnStart(false)`
