@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+### Changed 
+### Deprecated
+### Removed
+### Fixed
+
+## 0.0.1 - 2020-08-12
+### Added
 - Toggle() method
 - SetState() method
 - WinWaitActive, WinWaitNotActive, WinActivate, ControlSend, SetKeyDelay Tokens
@@ -20,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Removed Token Delimiter customization
 ### Fixed
 - Fix Braces in Braces (`{{}` and `{}}`)
+- Issue #5 fixed - spaces between characters no longer deleted
 
 ## 0.0.0 - 2019-04-29
 ### Added
