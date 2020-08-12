@@ -69,6 +69,10 @@ ss := new SequenceSender()
 Assert("Throws error if ResetOnStart and Repeat are false", ss, "a"
 	, []
 	, ["One of ResetOnStart or Repeat must be true"])
+	
+; End =============================
+WriteLog("Done!")
+	
 return
 
 ^Esc::
